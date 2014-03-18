@@ -30,7 +30,7 @@ public class TetrisBlock extends TetrisBug {
 	 * default constructor
 	 */
 	public TetrisBlock() {
-		super(Color.blue);
+		super(Color.red);
 		rotationPos = 0;
 		gr = TetrisGame.world.getGrid();
 
@@ -126,6 +126,20 @@ public class TetrisBlock extends TetrisBug {
 	public void moveLeft() {
 
 		// Your code goes here ... see Question 1
+		setDirection(-90);
+		for (TetrisBug tb : blocks)
+			tb.setDirection(-90);
+		if (rotationPos == 0) {
+			if (canMove() && blocks.get(0).canMove()) {
+				blocks.get(0).move();
+				move();
+			}
+		} else if (rotationPos == 1) {
+			if (blocks.get(0).canMove()) {
+				blocks.get(0).move();
+				move();
+			}
+		}
 
 	}
 
@@ -136,6 +150,7 @@ public class TetrisBlock extends TetrisBug {
 	 */
 	public void rotate() {
 		Location nextLoc;
+		Location currLoc;
 		if (rotationPos == 0) {
 			// only one block must move
 			nextLoc = new Location(getLocation().getRow() - 1,
@@ -147,6 +162,12 @@ public class TetrisBlock extends TetrisBug {
 		} else if (rotationPos == 1) {
 
 			// Your code goes here ... see Question 1
+			currLoc = new Location(getLocation().getRow() + 1, getLocation().getCol() - 1);
+			if(gr.isValid(currLoc)&& gr.get(currLoc) == null)
+			{
+				moveTo(currLoc);
+				rotationPos = 0;
+			}
 			
 		}
 

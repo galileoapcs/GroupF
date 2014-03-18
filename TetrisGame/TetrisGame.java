@@ -3,6 +3,7 @@ import info.gridworld.actor.*;
 import info.gridworld.grid.*;
 import java.util.ArrayList;
 import java.awt.Color;
+
 /**
  * This is a clone of the classic Tetris game.
  * The GUI is the standard for GridWorld.
@@ -70,11 +71,13 @@ public class TetrisGame {
 	public static void nextTetrisBlock() {
 
 		removeCompleteRows();
-		TetrisBlock randomBlock = new TetrisBlock();//default 2block piece
+		TetrisBlock randomBlock = new TetrisBlockO();//default 2block piece
 		//choose random block
 		int randNum = (int)(Math.random()*7)+1;//random number between 1 and 7
-		//if(randNum == 1)
-		// randomBlock = new TetrisBlockO();
+		if(randNum == 1)
+		{
+			randomBlock = new TetrisBlockO();
+		}
 		//if(randNum == 2)
 		// randomBlock = new TetrisBlockI();
 		//if(randNum == 3)
@@ -100,10 +103,58 @@ public class TetrisGame {
 		Grid<Actor> gr = world.getGrid();
 
 		//Your code goes here ... see Question 2
+		Location loc;
+		Location locUp;
+		for(int i = 18; i > 0; i--)
+		{
+			if(isFullRow(i) == true)
+			{
+				for(int i2 = 1; i2 < 11; i2++)
+				{
+					loc = new Location(i,i2);
+					locUp = new Location(i-1,i2);
+					gr.remove(loc);
+					if(gr.get(locUp) != null)
+					{
+						gr.get(locUp).moveTo(loc);
+					}
+				}
+				i++;
+			}
+		}
 		
-
 	}
+	
+	private static boolean isFullRow(int i)
+	{
+		Grid<Actor> gr = world.getGrid();
+		
+		for(int i2 = 1; i2 < 11; i2++)
+		{
+			Location loc;
+			loc = new Location(i,i2);
+			if(gr.get(loc) != null)
+			{
+				if(i2 == 10)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+}
 	
 
 
-}
+
