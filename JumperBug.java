@@ -6,15 +6,12 @@ import info.gridworld.actor.Bug;
 
 public class JumperBug extends Bug
 {
-
+    
     public JumperBug()
     {
         setColor(Color.cyan);
     }
 
-    /**
-     * Moves to the next location of the square.
-     */
     public void act()
     {
         if(canJump() == true)
@@ -76,7 +73,3 @@ public class JumperBug extends Bug
     }
     
 }
-
-
-======
-No Jumper class?
