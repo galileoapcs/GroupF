@@ -71,15 +71,17 @@ public class TetrisGame {
 	public static void nextTetrisBlock() {
 
 		removeCompleteRows();
-		TetrisBlock randomBlock = new TetrisBlockO();//default 2block piece
+		TetrisBlock randomBlock = null;//default 2block piece
 		//choose random block
-		int randNum = (int)(Math.random()*7)+1;//random number between 1 and 7
-		if(randNum == 1)
-		{
-			randomBlock = new TetrisBlockO();
-		}
+		int randNum = (int)(Math.random()*2)+1;//random number between 1 and 7
+		//if(randNum == 1)
+		//{
+		//	randomBlock = new TetrisBlockO();
+		//}
 		//if(randNum == 2)
-		// randomBlock = new TetrisBlockI();
+		//{
+		//	randomBlock = new TetrisBlockI();
+		//}
 		//if(randNum == 3)
 		// randomBlock = new TetrisBlockT();
 		//if(randNum == 4)
@@ -90,6 +92,7 @@ public class TetrisGame {
 		// randomBlock = new TetrisBlockZ();
 		//if(randNum == 7)
 		// randomBlock = new TetrisBlock_Z();
+		randomBlock = new TetrisBlockL();
 
 		currentBlock = randomBlock;
 	}
@@ -117,7 +120,7 @@ public class TetrisGame {
 					if(gr.get(locUp) != null)
 					{
 						gr.get(locUp).moveTo(loc);
-					}
+       					}
 				}
 				i++;
 			}
