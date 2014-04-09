@@ -3,6 +3,7 @@ import info.gridworld.actor.*;
 import info.gridworld.grid.*;
 import java.util.ArrayList;
 import java.awt.Color;
+
 /**
  * This is a clone of the classic Tetris game.
  * The GUI is the standard for GridWorld.
@@ -24,11 +25,16 @@ public class TetrisGame {
 	 * Its direction and rotation is controlled by the keyboard arrow keys.
 	 */
 	public static TetrisBlock currentBlock;
+	
+	public static TetrisBlock nextBlock;
+	
 
 	/**
 	 * The number of lines cleared during a the game
 	 */
 	public static int score;
+	
+	static boolean check = false;
 
 	/**
 	 * Handles game simulation and KeyEvent handling
@@ -63,33 +69,50 @@ public class TetrisGame {
 		world.show();
 
 	}
-
+	
+	public static TetrisBlock randomTetrisBlock()
+	{
+		TetrisBlock randomBlock = null;
+		int randNum = (int)(Math.random()*7) + 1;
+		if(randNum == 1)
+		{
+			randomBlock = new TetrisBlockO();
+		}
+		if(randNum == 2)
+		{
+			randomBlock = new TetrisBlockI();
+		}
+		if(randNum == 3)
+		{
+			randomBlock = new TetrisBlockT();
+		}
+		if(randNum == 4)
+		{
+			randomBlock = new TetrisBlockL();
+		}
+		if(randNum == 5)
+		{
+			randomBlock = new TetrisBlock_L();
+		}
+		if(randNum == 6)
+		{
+			randomBlock = new TetrisBlockZ();
+		}
+		if(randNum == 7)
+		{
+			randomBlock = new TetrisBlock_Z();
+		}
+		return randomBlock;
+	}
+	
 	/**
 	 * Calls removeCompleteRows and chooses a new TetrisBlock at random
 	 */
 	public static void nextTetrisBlock() {
-
 		removeCompleteRows();
-		TetrisBlock randomBlock = new TetrisBlock();//default 2block piece
-		//choose random block
-		int randNum = (int)(Math.random()*7)+1;//random number between 1 and 7
-		//if(randNum == 1)
-		// randomBlock = new TetrisBlockO();
-		//if(randNum == 2)
-		// randomBlock = new TetrisBlockI();
-		//if(randNum == 3)
-		// randomBlock = new TetrisBlockT();
-		//if(randNum == 4)
-		// randomBlock = new TetrisBlockL();
-		//if(randNum == 5)
-		// randomBlock = new TetrisBlock_L();
-		//if(randNum == 6)
-		// randomBlock = new TetrisBlockZ();
-		//if(randNum == 7)
-		// randomBlock = new TetrisBlock_Z();
-
-		currentBlock = randomBlock;
+		currentBlock = randomTetrisBlock();
 	}
+	
 	/**
 	 * checks each row 1 through 18 (skip row 0) for full rows
 	 * if a row is full, then remove the actor from each cell in that row
@@ -100,10 +123,64 @@ public class TetrisGame {
 		Grid<Actor> gr = world.getGrid();
 
 		//Your code goes here ... see Question 2
+		Location loc;
+		Location locUp;
+		for(int i = 18; i > 0; i--)
+		{
+			if(isFullRow(i) == true)
+			{
+				for(int i3 = i; i3 > 0; i3--)
+				{
+					for(int i2 = 1; i2 < 11; i2++)
+					{
+						loc = new Location(i3,i2);
+						locUp = new Location(i3-1,i2);
+						gr.remove(loc);
+						if(gr.get(locUp) != null)
+						{
+							gr.get(locUp).moveTo(loc);
+						}
+					}
+				}
+				TetrisGame.score++;
+				i++;
+			}
+		}
 		
-
+		world.setMessage("Score: " + TetrisGame.score);
+		world.show();
 	}
+	
+	private static boolean isFullRow(int i)
+	{
+		Grid<Actor> gr = world.getGrid();
+		
+		for(int i2 = 1; i2 < 11; i2++)
+		{
+			Location loc;
+			loc = new Location(i,i2);
+			if(gr.get(loc) != null)
+			{
+				if(i2 == 10)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+}
 	
 
 
-}
+
